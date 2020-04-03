@@ -18,7 +18,6 @@ def monthNametoNum(month):
 
 def convertMonths(months):
     monthData = {}
-    print(months)
 
     if months == 'Year-round (Northern and Southern)':
         for month in range(1,13):
