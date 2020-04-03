@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import json
 import re
 import convertTime
+import convertMonths
 
 months = {'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'}
 
@@ -23,13 +24,13 @@ with open("polygon_fish_list.html", "r") as f:
         fishObject = {}
         fishData = fish.findAll('td')
 
-        fishObject['id'] = fishData[0].text
-        fishObject['name'] = fishData[1].text
+        fishObject['id']       = fishData[0].text
+        fishObject['name']     = fishData[1].text
         fishObject['location'] = fishData[2].text
-        fishObject['size'] = fishData[3].text
-        fishObject['price'] = fishData[4].text
-        fishObject['time'] = convertTime.convertTime(fishData[5].text)
-        fishObject['months'] = fishData[6].text
+        fishObject['size']     = fishData[3].text
+        fishObject['price']    = fishData[4].text
+        fishObject['time']     = convertTime.convertTime(fishData[5].text)
+        fishObject['months']   = convertMonths.convertMonths(fishData[6].text)
 
         allFish.append(fishObject)
 
