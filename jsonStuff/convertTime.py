@@ -26,7 +26,7 @@ def convertTime(time):
             hours[hour]=1
         return hours
 
-    times = re.findall(r'([\d|a|p])', time)
+    times = re.findall(r'([\d|a|p]{1,2})', time)
     milTimes = toMilTime(times)
     
     for hour in range(0,24):
