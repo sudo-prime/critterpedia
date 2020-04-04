@@ -1,5 +1,5 @@
-# critterpedia
-
+# Critterpedia
 
 ## Todo
 * All React Stuff
+

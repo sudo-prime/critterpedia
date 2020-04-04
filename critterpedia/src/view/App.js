@@ -2,17 +2,23 @@ import React from 'react';
 import './App.css';
 import Button from '../component/button/Button';
 import SearchBar from '../component/search-bar/SearchBar'
+import Slider from '../component/slider/Slider';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             query: "",
+            price: 69
         };
     }
 
     handleQueryUpdated = (event) => {
         this.setState({query: event.target.value});
+    }
+
+    handlePriceUpdated = (event) => {
+        this.setState({price: event.target.value});
     }
 
     render() {
@@ -30,7 +36,12 @@ class App extends React.Component {
                     text="Click me!"
                     onClick={() => console.log("clicked")}
                 /><br/>
-                test text
+                <Slider
+                    min={1}
+                    max={15000}
+                    value={this.state.price}
+                    onChange={this.handlePriceUpdated}
+                />
             </div>
         </div>
     }
