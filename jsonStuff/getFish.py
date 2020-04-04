@@ -6,8 +6,7 @@ import json
 import re
 import convertTime
 import convertMonths
-
-months = {'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'}
+import toInt
 
 allFish = []
 
@@ -28,7 +27,7 @@ with open("polygon_fish_list.html", "r") as f:
         fishObject['name']     = fishData[1].text
         fishObject['location'] = fishData[2].text
         fishObject['size']     = fishData[3].text
-        fishObject['price']    = fishData[4].text
+        fishObject['price']    = toInt.toInt(fishData[4].text)
         fishObject['time']     = convertTime.convertTime(fishData[5].text)
         fishObject['months']   = convertMonths.convertMonths(fishData[6].text)
 

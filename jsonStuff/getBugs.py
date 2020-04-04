@@ -6,6 +6,7 @@ import json
 import re
 import convertTime
 import convertMonths
+import toInt
 
 allBugs = []
 
@@ -25,7 +26,7 @@ with open("polygon_bug_list.html", "r") as f:
         bugObject['id']       = bugData[0].text
         bugObject['name']     = bugData[1].text
         bugObject['location'] = bugData[2].text
-        bugObject['price']    = bugData[3].text
+        bugObject['price']    = toInt.toInt(bugData[3 ].text)
         bugObject['time']     = convertTime.convertTime(bugData[4].text)
         bugObject['months']   = convertMonths.convertMonths(bugData[5].text)
 
