@@ -9,7 +9,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             query: "",
-            price: 69
+            price: 7500
         };
     }
 
@@ -37,7 +37,7 @@ class App extends React.Component {
                     onClick={() => console.log("clicked")}
                 /><br/>
                 <Slider
-                    min={1}
+                    min={0}
                     max={15000}
                     value={this.state.price}
                     onChange={this.handlePriceUpdated}
