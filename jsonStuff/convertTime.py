@@ -3,20 +3,32 @@
 import re
 
 def toMilTime(hours):
-    #Splits the two times into their own arrays for easy iteration
-    split = [hours[0:2], hours[2:4]]
-    milHours=[]
-
     #If PM, add 12 for military time
     #This function will not work if either time is noon or midnight
     #But that edgecase does not exist here, so its k
-    for time in split:
-        if time[1] == 'p':
-            time[0] = int(time[0]) + 12
-        else:
-            time[0] = int(time[0])
-        milHours.append(time[0])
-    return milHours
+    milHour = 0
+
+    hour = hours.split()
+    if hour[1] == 'p':
+        milHour = int(hour[0]) + 12
+    else:
+        milHour = int(hour[0])
+
+    return milHour
+
+def setHours(start, end, hours):
+    hourIter = start
+
+    while hourIter != end:
+        if hourIter == 24:
+            hourIter = 0
+        
+        hours[hourIter] = 1
+        hourIter += 1
+
+    hours[end] = 1
+    return hours
+
 
 def convertTime(time):
     hours = {}
@@ -26,25 +38,22 @@ def convertTime(time):
             hours[hour]=1
         return hours
 
-    times = re.findall(r'([\d|a|p]{1,2})', time)
-    milTimes = toMilTime(times)
-    
     for hour in range(0,24):
         hours[hour]=0
 
-    hour = milTimes[0]
+    times = re.findall(r'\d{1,2} [a|p]', time)
 
-    while hour != milTimes[1]:
-        if hour == 24:
-            hour = 0
-        
-        hours[hour] = 1
-        hour += 1
+    milHours = []
+
+    for time in times:
+        milHours.append(toMilTime(time))
     
-    hours[milTimes[1]] = 1
+    hours = setHours(milHours[0], milHours[1], hours)
+    if (len(milHours) == 4):
+        hours = setHours(milHours[2], milHours[3], hours)
 
     return hours
 
-
 #print(convertTime("6 p.m. - 4 a.m."))
 #print(convertTime("All day"))
+#print(convertTime("9 a.m. - 4 p.m., 9 p.m. - 4 a.m."))

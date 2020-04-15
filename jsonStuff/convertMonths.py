@@ -15,6 +15,19 @@ for month in ALLMONTHS[1:13]:
 def monthNametoNum(month):
     return monthTable[month]
 
+def setMonths(start, end, monthData):
+    #Sets all months from start to end in monthdata to 1 and returns monthdata
+    monthIter = start
+
+    while monthIter != end:
+        if monthIter == 13:
+            monthIter = 1
+        
+        monthData[monthIter] = 1
+        monthIter += 1
+
+    monthData[end] = 1
+    return monthData
 
 def convertMonths(months):
     monthData = {}
@@ -24,32 +37,31 @@ def convertMonths(months):
             monthData[month]=1
         return monthData
     
-    months = re.sub(r'(\w*\-\w*).*?$', r'\g<1>', months)
-    monthRange = re.findall(r'\w+', months)
-
-    monthRange[0] = monthNametoNum(monthRange[0])
-
-    #Fix error that occurs with Salmon and King Salmon only being available one month
-    try:
-        monthRange[1] = monthNametoNum(monthRange[1])
-    except:
-        monthRange[1] = monthRange[0]
-
     for month in range(1,13):
         monthData[month] = 0
-        
-    monthIter = monthRange[0]
+    
+    months = re.sub(r'(.*?) \(.*?$', r'\g<1>', months)
+    monthRange = re.findall(r'\w+', months)
 
-    while monthIter != monthRange[1]:
-        if monthIter == 13:
-            monthIter = 1
-        
-        monthData[monthIter] = 1
-        monthIter += 1
+    monthRangeNums = []
 
-    monthData[monthRange[1]] = 1
+    for monthName in monthRange:
+        monthRangeNums.append(monthNametoNum(monthName))
+
+    if(len(monthRangeNums) == 1):
+        monthData = setMonths(monthRangeNums[0], monthRangeNums[0], monthData)
+    
+    elif(len(monthRangeNums) == 4):
+        monthData = setMonths(monthRangeNums[0], monthRangeNums[1], monthData)
+        monthData = setMonths(monthRangeNums[2], monthRangeNums[3], monthData)
+    
+    else:
+        monthData = setMonths(monthRangeNums[0], monthRangeNums[1], monthData)
+
     return monthData
 
 #Test Cases
 #print(convertMonths('November-March (Northern) / May-September (Southern)'))
 #print(convertMonths('Year-round (Northern and Southern)'))
+#print(convertMonths('September (Northern) / March (Southern)'))
+#print(convertMonths('March-June, September-October (Northern) / March-April, September-December (Southern)'))
